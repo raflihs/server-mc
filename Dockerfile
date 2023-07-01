@@ -7,7 +7,7 @@ RUN apk add --no-cache curl
 WORKDIR /app
 
 # Expose port
-EXPOSE 8023
+EXPOSE 25565
 
 # Set startup command
-CMD start.bat && sleep 10 && java -jar paper.jar --nogui --command "sk reload Boom.sk"
+CMD java -Xms2G -Xmx6G -jar paper.jar --nogui && sleep 10 && java --command "sk reload Boom.sk"
