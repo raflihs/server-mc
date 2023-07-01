@@ -9,8 +9,6 @@ WORKDIR /app
 # Download and install Minecraft server
 RUN curl -o paper.jar https://papermc.io/api/v2/projects/paper/versions/1.20.1/builds/413/downloads/paper-1.20.1-413.jar
 
-# Copy Skript file
-COPY scripts/Boom.sk /app/plugins/Boom.sk
 
 # Expose port
 EXPOSE 25565
