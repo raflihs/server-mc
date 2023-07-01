@@ -1,0 +1,60 @@
+command /boom <text> <player> <number> <text>:
+	trigger:
+		if arg-1 is "Creeper" or "TNT":
+			send title "" with subtitle "&c&l%arg-4% &fSend &ex%arg-3% TNT" to arg-2 for 3 seconds with fadein 0.5 second and fade out 0.5 second
+			loop arg-3 times:
+				if arg-1 is "TNT":
+					spawn a tnt at arg-2
+				if arg-1 is "Creeper":
+					spawn a creeper at arg-2
+					set name of the last spawned creeper to "Agus"
+					instantly explode the last spawned creeper
+					play sound "entity.generic.explode" to arg-2
+				play sound "entity.experience_orb.pickup" to arg-2
+				wait 2 ticks
+			launch creeper firework coloured purple, yellow, blue, green and red fading to pink at arg-2 with duration 0.001
+			play mob spawner flames at arg-2's location to the arg-2
+		else:
+			send "&c/Boom <TNT/Creeper> <Player> <Jumlah TNT> <Sender>"
+			
+on explode:
+	if event-entity's name is "Agus":
+		cancel the event
+		loop exploded blocks:
+			break loop-block
+
+command /BoomReset <player> <text>:
+	trigger:
+		if {SWE::Loc1} and {SWE::Loc2} is set:
+			loop all blocks within {SWE::Loc1} and {SWE::Loc2}:
+				set loop-block to air
+			launch creeper firework coloured purple, yellow, blue, green and red fading to pink at arg-1 with duration 0.001
+			send title "" with subtitle "&c&l%arg-2% &fSend &ex1 Reset" to arg-1 for 3 seconds with fadein 0.5 second and fade out 0.5 second
+			loop 10 times:
+				play sound "block.stone.break" to arg-1
+				wait 5 ticks
+		else:
+			send "&cSet dulu area yang diinginkan menggunakan `//wandboom`"
+
+on right click with golden axe:
+	name of player's held item is "&8(&6&lBoom&8) &7Wand"
+	set {SWE::Loc1} to event-block's location
+	set {SWE::x1} to rounded down x-position of event-block
+	set {SWE::y1} to rounded down y-position of event-block
+	set {SWE::z1} to rounded down z-position of event-block
+	send "&8(&6&lBoom&8) &7Point 2 set! (X: %{SWE::x1}%, Y: %{SWE::y1}% Z: %{SWE::z1}%)"
+
+on break:
+	name of player's held item is "&8(&6&lBoom&8) &7Wand"
+	player's held item is a golden axe
+	cancel event
+	set {SWE::Loc2} to event-block's location
+	set {SWE::x2} to rounded down x-position of event-block
+	set {SWE::y2} to rounded down y-position of event-block
+	set {SWE::z2} to rounded down z-position of event-block
+	send "&8(&6&lBoom&8) &7Point 1 set! (X: %{SWE::x2}%, Y: %{SWE::y2}% Z: %{SWE::z2}%)"
+	
+Command //wandboom:
+	trigger:
+		send "&8(&6&lBoom&8) &aIni Tongkat Wand-mu!"
+		give 1 golden axe named "&8(&6&lBoom&8) &7Wand" to player
